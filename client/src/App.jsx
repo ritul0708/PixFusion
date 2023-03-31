@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css'
 import {Link, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
 import CreatePost from './pages/CreatePost';
