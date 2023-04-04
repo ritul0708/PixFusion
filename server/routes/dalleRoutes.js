@@ -1,8 +1,8 @@
 import express from 'express';
 import { Configuration, OpenAIApi } from 'openai';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 router.route('/').get((req, res) => {
-  res.status(200).json({ message: 'Hello from DALL-E!' });
+  res.status(200).json({ message: 'Hello from PixFusion!' });
 });
 
 router.route('/').post(async (req, res) => {

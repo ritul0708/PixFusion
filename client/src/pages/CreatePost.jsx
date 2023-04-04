@@ -35,8 +35,8 @@ const CreatePost = () => {
 
         const data = await response.json();
         setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
-      } catch (err) {
-        alert(err);
+      } catch (error) {
+        alert(error);
       } finally {
         setGeneratingImg(false);
       }
@@ -64,7 +64,7 @@ const CreatePost = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(form),
+          body: JSON.stringify({ ...form }),
         });
 
         await response.json();
@@ -76,9 +76,8 @@ const CreatePost = () => {
         setLoading(false);
       }
     } else {
-      alert('Please enter a prompt a prompt and generate an image');
+      alert('Please enter a valid prompt and generate an image');
     }
-
   }
 
   return (
@@ -157,4 +156,4 @@ const CreatePost = () => {
   )
 }
 
-export default CreatePost
+export default CreatePost;

@@ -36,10 +36,10 @@ const Home = () => {
 
       if (response.ok) {
         const result = await response.json();
-        setAllPosts(result.data.reverse());
+        setAllPosts(result.data && result.data.reverse());
       }
-    } catch (err) {
-      alert(err);
+    } catch (error) {
+      alert(error);
     } finally {
       setLoading(false);
     }
