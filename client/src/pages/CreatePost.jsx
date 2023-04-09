@@ -23,7 +23,7 @@ const CreatePost = () => {
   // getting random prompts from chatgpt
   const handleSurpriseMe = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/v1/prompt/chatgpt/', {
+      const response = await fetch('https://pixfusion.onrender.com/api/v1/prompt/chatgpt/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
