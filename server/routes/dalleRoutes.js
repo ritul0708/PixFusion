@@ -1,6 +1,6 @@
 import express from 'express';
-import { Configuration, OpenAIApi } from 'openai';
 import * as dotenv from 'dotenv';
+import { Configuration, OpenAIApi } from 'openai';
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ router.route('/').post(async (req, res) => {
     res.status(200).json({ photo: image });
   } catch (error) {
     console.error(error);
-    res.status(500).send(error?.response.data.error.message || 'Something went wrong');
+    res.status(500).send(error?.response.data.error.message || 'Not able to generate image');
   }
 });
 

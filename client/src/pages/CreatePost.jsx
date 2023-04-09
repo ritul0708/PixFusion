@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { preview } from '../assets';
-import { getRandomPrompt } from '../utils';
 import { FormField, Loader } from '../components';
 
 const CreatePost = () => {
@@ -17,8 +15,29 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // setting form inputs to their values
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  };
 
+  // getting random prompts from chatgpt
+  const handleSurpriseMe = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/v1/prompt/chatgpt/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      setForm({ ...form, prompt: data.prompt });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
+  // generating images using prompts
   const generateImage = async () => {
     if (form.prompt) {
       try {
@@ -35,8 +54,8 @@ const CreatePost = () => {
 
         const data = await response.json();
         setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
-      } catch (error) {
-        alert(error);
+      } catch (err) {
+        alert(err);
       } finally {
         setGeneratingImg(false);
       }
@@ -45,22 +64,15 @@ const CreatePost = () => {
     }
   };
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSurpriseMe = () => {
-    const randomPrompt = getRandomPrompt(form.prompt);
-    setForm({ ...form, prompt: randomPrompt });
-  };
-
+  // sharing generated image with the community
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(form.prompt && form.photo) {
+    if (form.prompt && form.photo) {
       setLoading(true);
-
       try {
         const response = await fetch('https://pixfusion.onrender.com/api/v1/post', {
-          method: 'POST', 
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -68,20 +80,20 @@ const CreatePost = () => {
         });
 
         await response.json();
-        navigate('/')
-
-      } catch (error) {
-        alert(error)
+        alert('Success');
+        navigate('/');
+      } catch (err) {
+        alert(err);
       } finally {
         setLoading(false);
       }
     } else {
-      alert('Please enter a valid prompt and generate an image');
+      alert('Please generate an image with proper details');
     }
-  }
+  };
 
   return (
-    <section className='max-w-7xl mx-auto'>
+    <section className="max-w-7xl mx-auto">
       <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Create</h1>
         <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Generate an imaginative image through DALL-E AI and share it with the community</p>
@@ -151,9 +163,9 @@ const CreatePost = () => {
             {loading ? 'Sharing...' : 'Share with the Community'}
           </button>
         </div>
-      </form>     
+      </form>
     </section>
-  )
-}
+  );
+};
 
 export default CreatePost;

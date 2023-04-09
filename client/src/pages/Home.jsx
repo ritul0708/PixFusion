@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Card, FormField, Loader} from '../components';
-
+import React, { useEffect, useState } from 'react';
+import { Card, FormField, Loader } from '../components';
 
 const RenderCards = ({ data, title }) => {
   if (data?.length > 0) {
@@ -14,11 +13,10 @@ const RenderCards = ({ data, title }) => {
   );
 };
 
-
-
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [allPosts, setAllPosts] = useState(null);
+
   const [searchText, setSearchText] = useState('');
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [searchedResults, setSearchedResults] = useState(null);
@@ -36,10 +34,10 @@ const Home = () => {
 
       if (response.ok) {
         const result = await response.json();
-        setAllPosts(result.data && result.data.reverse());
+        setAllPosts(result.data.reverse());
       }
-    } catch (error) {
-      alert(error);
+    } catch (err) {
+      alert(err);
     } finally {
       setLoading(false);
     }
@@ -48,8 +46,6 @@ const Home = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-
 
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout);
@@ -62,8 +58,6 @@ const Home = () => {
       }, 500),
     );
   };
-
-
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -115,4 +109,4 @@ const Home = () => {
   );
 };
 
-export default Home
+export default Home;
